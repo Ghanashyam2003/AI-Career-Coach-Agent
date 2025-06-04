@@ -9,10 +9,14 @@ function Provider({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { user } = useUser();
-  useEffect(() => {
-    user && createNewUser();
-  }, [user]);
+  const { user, isLoaded } = useUser();
+
+useEffect(() => {
+  if (isLoaded && user) {
+    createNewUser();
+  }
+}, [isLoaded, user]);
+
 
   const createNewUser = async () => {
     const result = await axios.post("/api/user");
